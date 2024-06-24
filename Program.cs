@@ -1,4 +1,6 @@
+using Intelligent_Document_Processing_and_Analysis_API.DbContexts;
 using Intelligent_Document_Processing_and_Analysis_API.Utilities;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Debugging;
 using Serilog.Filters;
@@ -28,7 +30,7 @@ if (AppSettingsConstants.ENABLE_INFORMATION_LOGS_TO_FILE)
 Log.Logger = loggerConfig.CreateLogger();
 
 // Enable Serilog's self logging to a file
-SelfLog.Enable(TextWriter => File.AppendAllText("serilog-selflog.txt", TextWriter + Environment.NewLine));
+SelfLog.Enable(TextWriter => File.AppendAllText("LOGS/serilog-selflog.txt", TextWriter + Environment.NewLine));
 
 builder.Host.UseSerilog(); // Use Serilog as the logging provider
 
@@ -48,12 +50,16 @@ try
     });
 
     // Add services to the container.
-    // sqlite, automapper, etc.
+    builder.Services.AddDbContext<SQLiteDbContext>(options => options.UseSqlite(AppSettingsConstants.SQLITE_CONNECTION_STRING));
 
-    // Our Services
+    // Services
     //
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers(options =>
+    {
+        options.ReturnHttpNotAcceptable = true;
+    }).AddNewtonsoftJson();
+
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
@@ -73,7 +79,7 @@ try
         {
             diagnosticContext.Set("Context", "HttpRequest");
         };
-    }); // Keep this above app.UseHttpsRedirection()
+    });
 
     app.UseHttpsRedirection();
     app.UseAuthorization();

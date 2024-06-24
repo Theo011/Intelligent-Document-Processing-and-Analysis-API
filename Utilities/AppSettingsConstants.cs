@@ -6,6 +6,7 @@ namespace Intelligent_Document_Processing_and_Analysis_API.Utilities;
 public static class AppSettingsConstants
 {
     public readonly static string CONSOLE_TITLE = null!;
+    public readonly static string SQLITE_CONNECTION_STRING = null!;
     public readonly static IPAddress HTTP_API_IP = null!;
     public readonly static int HTTP_API_PORT;
     public readonly static bool DISABLE_CONSOLE_QUICK_EDIT_MODE;
@@ -27,6 +28,12 @@ public static class AppSettingsConstants
                 CONSOLE_TITLE = configuration["AppSettings:CONSOLE_TITLE"]!;
             else
                 CONSOLE_TITLE = "Intelligent Document Processing and Analysis API";
+
+            // SQLITE_CONNECTION_STRING
+            if (!string.IsNullOrWhiteSpace(configuration["AppSettings:SQLITE_CONNECTION_STRING"]))
+                SQLITE_CONNECTION_STRING = configuration["AppSettings:SQLITE_CONNECTION_STRING"]!;
+            else
+                SQLITE_CONNECTION_STRING = "Data Source=SQLite.db";
 
             // HTTP_API_IP
             if (!string.IsNullOrWhiteSpace(configuration["AppSettings:HTTP_API_IP"]))
