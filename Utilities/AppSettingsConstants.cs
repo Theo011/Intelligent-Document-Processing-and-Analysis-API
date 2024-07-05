@@ -19,6 +19,11 @@ public static class AppSettingsConstants
     {
         try
         {
+            /*var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("Configuration/appsettings.json")
+                .Build();*/
+
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
@@ -33,7 +38,7 @@ public static class AppSettingsConstants
             if (!string.IsNullOrWhiteSpace(configuration["AppSettings:SQLITE_CONNECTION_STRING"]))
                 SQLITE_CONNECTION_STRING = configuration["AppSettings:SQLITE_CONNECTION_STRING"]!;
             else
-                SQLITE_CONNECTION_STRING = "Data Source=SQLite.db";
+                SQLITE_CONNECTION_STRING = "Data Source=Data/SQLite.db";
 
             // HTTP_API_IP
             if (!string.IsNullOrWhiteSpace(configuration["AppSettings:HTTP_API_IP"]))

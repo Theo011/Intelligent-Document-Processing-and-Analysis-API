@@ -7,6 +7,11 @@ using Serilog.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
+/*builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("Configuration/appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"Configuration/appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();*/
+
 var loggerConfig = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
@@ -51,6 +56,7 @@ try
 
     // Add services to the container.
     builder.Services.AddDbContext<SQLiteDbContext>(options => options.UseSqlite(AppSettingsConstants.SQLITE_CONNECTION_STRING));
+    builder.Services.AddAutoMapper(typeof(Program));
 
     // Services
     //

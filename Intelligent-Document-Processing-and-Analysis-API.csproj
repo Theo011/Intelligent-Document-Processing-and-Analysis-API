@@ -37,9 +37,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Configuration\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
-    <Folder Include="Entities\" />
+    <Folder Include="Models\Entities\" />
+    <Folder Include="Models\DTOs\" />
+    <Folder Include="Data\" />
+    <Folder Include="Repositories\" />
     <Folder Include="Profiles\" />
     <Folder Include="Services\" />
   </ItemGroup>
