@@ -17,6 +17,7 @@ public class LlmInteraction
 
     public string? Output { get; private set; }
 
+    [StringLength(1000)]
     public string? Metadata { get; private set; }
 
     public LlmInteraction(string input, string? output = null, string? metadata = null)

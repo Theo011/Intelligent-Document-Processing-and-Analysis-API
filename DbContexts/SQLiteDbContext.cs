@@ -14,9 +14,9 @@ public class SQLiteDbContext(DbContextOptions<SQLiteDbContext> options) : DbCont
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<LlmInteraction>()
+            /*modelBuilder.Entity<LlmInteraction>()
                 .Property(e => e.Timestamp)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");*/
         }
         catch (Exception ex)
         {
