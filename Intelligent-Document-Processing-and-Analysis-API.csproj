@@ -38,9 +38,7 @@
 
   <ItemGroup>
     <Folder Include="Configuration\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Data\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

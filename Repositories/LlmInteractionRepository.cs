@@ -16,7 +16,7 @@ public class LlmInteractionRepository(SQLiteDbContext context, IMapper mapper) :
     {
         try
         {
-            var interaction = await _context.LlmInteractions.FindAsync(id);
+            var interaction = await _context.LlmInteractions.FindAsync(id).ConfigureAwait(false);
 
             return _mapper.Map<LlmInteractionDto>(interaction);
         }
@@ -24,7 +24,7 @@ public class LlmInteractionRepository(SQLiteDbContext context, IMapper mapper) :
         {
             Log.Error(ex, "Error at class: {class}, method: {method}", nameof(LlmInteractionRepository), nameof(GetByIdAsync));
 
-            return new();
+            throw;
         }
     }
 
@@ -32,7 +32,7 @@ public class LlmInteractionRepository(SQLiteDbContext context, IMapper mapper) :
     {
         try
         {
-            var interactions = await _context.LlmInteractions.ToListAsync();
+            var interactions = await _context.LlmInteractions.ToListAsync().ConfigureAwait(false);
 
             return _mapper.Map<IEnumerable<LlmInteractionDto>>(interactions);
         }
@@ -40,7 +40,7 @@ public class LlmInteractionRepository(SQLiteDbContext context, IMapper mapper) :
         {
             Log.Error(ex, "Error at class: {class}, method: {method}", nameof(LlmInteractionRepository), nameof(GetAllAsync));
 
-            return [];
+            throw;
         }
     }
 
@@ -52,7 +52,7 @@ public class LlmInteractionRepository(SQLiteDbContext context, IMapper mapper) :
 
             _context.LlmInteractions.Add(interaction);
 
-            if (await _context.SaveChangesAsync() < 1)
+            if (await _context.SaveChangesAsync().ConfigureAwait(false) < 1)
                 throw new($"Failed to save changes to the database at class: {nameof(LlmInteractionRepository)}, method: {nameof(AddAsync)} with input: {interactionDto.ToString}.");
             
             return _mapper.Map<LlmInteractionDto>(interaction);
@@ -61,7 +61,7 @@ public class LlmInteractionRepository(SQLiteDbContext context, IMapper mapper) :
         {
             Log.Error(ex, "Error at class: {class}, method: {method}", nameof(LlmInteractionRepository), nameof(AddAsync));
 
-            return new();
+            throw;
         }
     }
 }

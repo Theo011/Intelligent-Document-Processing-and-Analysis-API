@@ -9,8 +9,10 @@ public static class AppSettingsConstants
     public readonly static string SQLITE_CONNECTION_STRING = null!;
     public readonly static string LLM_HTTP_API_IP = null!;
     public readonly static string LLM_HTTP_API_PORT = null!;
+    public readonly static string LLM_COMPLETION_ENDPOINT = null!;
     public readonly static IPAddress HTTP_API_IP = null!;
     public readonly static int HTTP_API_PORT;
+    public readonly static int COMPLETION_HTTP_CLIENT_TIMEOUT;
     public readonly static bool DISABLE_CONSOLE_QUICK_EDIT_MODE;
     public readonly static bool ENABLE_VERBOSE_LOGS_TO_FILE;
     public readonly static bool ENABLE_DEBUG_LOGS_TO_FILE;
@@ -54,6 +56,12 @@ public static class AppSettingsConstants
             else
                 LLM_HTTP_API_PORT = "1234";
 
+            // LLM_COMPLETION_ENDPOINT
+            if (!string.IsNullOrWhiteSpace(configuration["AppSettings:LLM_COMPLETION_ENDPOINT"]))
+                LLM_COMPLETION_ENDPOINT = configuration["AppSettings:LLM_COMPLETION_ENDPOINT"]!;
+            else
+                LLM_COMPLETION_ENDPOINT = "/v1/chat/completions";
+
             // HTTP_API_IP
             if (!string.IsNullOrWhiteSpace(configuration["AppSettings:HTTP_API_IP"]))
                 HTTP_API_IP = IPAddress.TryParse(configuration["AppSettings:HTTP_API_IP"], out IPAddress? address) ? (address ?? IPAddress.Parse("127.0.0.1")) : IPAddress.Parse("127.0.0.1");
@@ -65,6 +73,12 @@ public static class AppSettingsConstants
                 HTTP_API_PORT = int.TryParse(configuration["AppSettings:HTTP_API_PORT"], out int result) ? result : 7015;
             else
                 HTTP_API_PORT = 7015;
+
+            // COMPLETION_HTTP_CLIENT_TIMEOUT
+            if (!string.IsNullOrWhiteSpace(configuration["AppSettings:COMPLETION_HTTP_CLIENT_TIMEOUT"]))
+                COMPLETION_HTTP_CLIENT_TIMEOUT = int.TryParse(configuration["AppSettings:COMPLETION_HTTP_CLIENT_TIMEOUT"], out int result) ? result : 180;
+            else
+                COMPLETION_HTTP_CLIENT_TIMEOUT = 180;
 
             // DISABLE_CONSOLE_QUICK_EDIT_MODE
             if (!string.IsNullOrWhiteSpace(configuration["AppSettings:DISABLE_CONSOLE_QUICK_EDIT_MODE"]))

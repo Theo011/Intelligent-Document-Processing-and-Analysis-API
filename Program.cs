@@ -1,5 +1,6 @@
 using Intelligent_Document_Processing_and_Analysis_API.DbContexts;
 using Intelligent_Document_Processing_and_Analysis_API.Repositories;
+using Intelligent_Document_Processing_and_Analysis_API.Services;
 using Intelligent_Document_Processing_and_Analysis_API.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -58,12 +59,17 @@ try
     // Add services to the container.
     builder.Services.AddDbContext<SQLiteDbContext>(options => options.UseSqlite(AppSettingsConstants.SQLITE_CONNECTION_STRING));
     builder.Services.AddAutoMapper(typeof(Program));
+    builder.Services.AddHttpClient(Globals.CompletionHttpClientName, client =>
+    {
+        client.BaseAddress = new($"http://{AppSettingsConstants.LLM_HTTP_API_IP}:{AppSettingsConstants.LLM_HTTP_API_PORT}");
+        client.Timeout = TimeSpan.FromSeconds(AppSettingsConstants.COMPLETION_HTTP_CLIENT_TIMEOUT);
+    });
 
     // Repositories
     builder.Services.AddScoped<ILlmInteractionRepository, LlmInteractionRepository>();
 
     // Services
-    //
+    builder.Services.AddScoped<ILlmCompletionService, LlmCompletionService>();
 
     builder.Services.AddControllers(options =>
     {
