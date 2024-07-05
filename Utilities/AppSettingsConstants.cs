@@ -7,6 +7,8 @@ public static class AppSettingsConstants
 {
     public readonly static string CONSOLE_TITLE = null!;
     public readonly static string SQLITE_CONNECTION_STRING = null!;
+    public readonly static string LLM_HTTP_API_IP = null!;
+    public readonly static string LLM_HTTP_API_PORT = null!;
     public readonly static IPAddress HTTP_API_IP = null!;
     public readonly static int HTTP_API_PORT;
     public readonly static bool DISABLE_CONSOLE_QUICK_EDIT_MODE;
@@ -39,6 +41,18 @@ public static class AppSettingsConstants
                 SQLITE_CONNECTION_STRING = configuration["AppSettings:SQLITE_CONNECTION_STRING"]!;
             else
                 SQLITE_CONNECTION_STRING = "Data Source=Data/SQLite.db";
+
+            // LLM_HTTP_API_IP
+            if (!string.IsNullOrWhiteSpace(configuration["AppSettings:LLM_HTTP_API_IP"]))
+                LLM_HTTP_API_IP = configuration["AppSettings:LLM_HTTP_API_IP"]!;
+            else
+                LLM_HTTP_API_IP = "localhost";
+
+            // LLM_HTTP_API_PORT
+            if (!string.IsNullOrWhiteSpace(configuration["AppSettings:LLM_HTTP_API_PORT"]))
+                LLM_HTTP_API_PORT = configuration["AppSettings:LLM_HTTP_API_PORT"]!;
+            else
+                LLM_HTTP_API_PORT = "1234";
 
             // HTTP_API_IP
             if (!string.IsNullOrWhiteSpace(configuration["AppSettings:HTTP_API_IP"]))

@@ -1,4 +1,5 @@
 using Intelligent_Document_Processing_and_Analysis_API.DbContexts;
+using Intelligent_Document_Processing_and_Analysis_API.Repositories;
 using Intelligent_Document_Processing_and_Analysis_API.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -57,6 +58,9 @@ try
     // Add services to the container.
     builder.Services.AddDbContext<SQLiteDbContext>(options => options.UseSqlite(AppSettingsConstants.SQLITE_CONNECTION_STRING));
     builder.Services.AddAutoMapper(typeof(Program));
+
+    // Repositories
+    builder.Services.AddScoped<ILlmInteractionRepository, LlmInteractionRepository>();
 
     // Services
     //
