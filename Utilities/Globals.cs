@@ -1,8 +1,4 @@
-﻿using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace Intelligent_Document_Processing_and_Analysis_API.Utilities;
+﻿namespace Intelligent_Document_Processing_and_Analysis_API.Utilities;
 
 public static class Globals
 {
@@ -12,11 +8,11 @@ public static class Globals
 
     public const string CompletionHttpClientName = "CompletionHttpClient";
 
-    public readonly static JsonSerializerOptions jsonSerializerOptions = new()
+    /*public readonly static JsonSerializerOptions jsonSerializerOptions = new()
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-    };
+    };*/
 
     static Globals()
     {

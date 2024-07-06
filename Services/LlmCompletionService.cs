@@ -29,7 +29,7 @@ public class LlmCompletionService(ILlmInteractionRepository llmInteractionReposi
             }).ConfigureAwait(false);
 
             return JsonConvert.DeserializeObject<CompletionResponse>(responseContent)
-                ?? throw new($"Failed to deserialize completion response at class: {nameof(LlmCompletionService)}, method: {nameof(GetCompletionAsync)}.");
+                ?? throw new($"Failed to deserialize completion response at class: {nameof(LlmCompletionService)}, method: {nameof(GetCompletionAsync)} with input: {responseContent}");
         }
         catch (Exception ex)
         {

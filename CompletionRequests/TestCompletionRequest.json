@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are an expert Backend .NET Developer. Think step by step and explain your reasoning when providing answers."
+    },
+    {
+      "role": "user",
+      "content": "How do I handle exceptions in C#?"
+    }
+  ]
+}

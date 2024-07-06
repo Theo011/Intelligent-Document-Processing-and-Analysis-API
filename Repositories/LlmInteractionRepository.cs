@@ -53,7 +53,7 @@ public class LlmInteractionRepository(SQLiteDbContext context, IMapper mapper) :
             _context.LlmInteractions.Add(interaction);
 
             if (await _context.SaveChangesAsync().ConfigureAwait(false) < 1)
-                throw new($"Failed to save changes to the database at class: {nameof(LlmInteractionRepository)}, method: {nameof(AddAsync)} with input: {interactionDto.ToString}.");
+                throw new($"Failed to save changes to the database at class: {nameof(LlmInteractionRepository)}, method: {nameof(AddAsync)} with input: {interactionDto.ToString}");
             
             return _mapper.Map<LlmInteractionDto>(interaction);
         }

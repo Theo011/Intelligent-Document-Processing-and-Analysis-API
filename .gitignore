@@ -398,3 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 *.db
 Migrations
+*.db-shm
+*.db-wal
