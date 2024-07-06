@@ -6,8 +6,6 @@ namespace Intelligent_Document_Processing_and_Analysis_API.Utilities;
 
 public static class CompletionRequestsConstants
 {
-    private const string CompletionRequestsFolderName = "CompletionRequests";
-
     public readonly static CompletionRequest TestCompletionRequest = null!;
 
     static CompletionRequestsConstants()
@@ -15,7 +13,7 @@ public static class CompletionRequestsConstants
         try
         {
             // TestCompletionRequest
-            string testCompletionRequestJsonFilePath = Path.Combine(CompletionRequestsFolderName, "TestCompletionRequest.json");
+            string testCompletionRequestJsonFilePath = Path.Combine(Globals.CompletionRequestsFolderName, "TestCompletionRequest.json");
             string testCompletionRequestJsonContent = File.ReadAllText(testCompletionRequestJsonFilePath);
 
             TestCompletionRequest = JsonConvert.DeserializeObject<CompletionRequest>(testCompletionRequestJsonContent)

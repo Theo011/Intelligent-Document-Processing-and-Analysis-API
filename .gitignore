@@ -400,3 +400,4 @@ FodyWeavers.xsd
 Migrations
 *.db-shm
 *.db-wal
+Uploads

@@ -2,6 +2,8 @@ using Intelligent_Document_Processing_and_Analysis_API.DbContexts;
 using Intelligent_Document_Processing_and_Analysis_API.Repositories;
 using Intelligent_Document_Processing_and_Analysis_API.Services;
 using Intelligent_Document_Processing_and_Analysis_API.Utilities;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Debugging;
@@ -70,6 +72,8 @@ try
 
     // Services
     builder.Services.AddScoped<ILlmCompletionService, LlmCompletionService>();
+    builder.Services.AddScoped<ITextExtractionService, TextExtractionService>();
+    builder.Services.AddScoped<ISaveFileService, SaveFileService>();
 
     builder.Services.AddControllers(options =>
     {
@@ -78,6 +82,23 @@ try
 
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
+    builder.Services.Configure<IISServerOptions>(options =>
+    {
+        options.MaxRequestBodySize = int.MaxValue;
+    });
+
+    builder.Services.Configure<KestrelServerOptions>(options =>
+    {
+        options.Limits.MaxRequestBodySize = int.MaxValue;
+    });
+
+    builder.Services.Configure<FormOptions>(options =>
+    {
+        options.ValueLengthLimit = int.MaxValue;
+        options.MultipartBodyLengthLimit = int.MaxValue;
+        options.MultipartHeadersLengthLimit = int.MaxValue;
+    });
 
     var app = builder.Build();
 
