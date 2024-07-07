@@ -50,7 +50,49 @@ public class DocumentController(ISaveFileService saveFileService, ITextExtractio
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Error at class: {class}, method: {method}", nameof(DocumentController), nameof(TestUploadDocument));
+            Log.Error(ex, "Error at class: {class}, method: {method}", nameof(DocumentController), nameof(GetDocumentSummary));
+
+            return StatusCode(500, $"An error occurred while processing the request: {ex.Message}");
+        }
+    }
+
+    [HttpPost("analysis")]
+    public async Task<ActionResult<string>> GetDocumentAnalysis(IFormFile file)
+    {
+        try
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("File is empty.");
+
+            var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+            if (!Globals.allowedDocumentExtensions.Contains(fileExtension))
+                return BadRequest($"File extension {fileExtension} is not allowed. Only {Globals.allowedDocumentExtensionsString} are allowed.");
+
+            var filePath = await _saveFileService.SaveFileAsync(file, fileExtension).ConfigureAwait(false);
+
+            if (string.IsNullOrWhiteSpace(filePath))
+                return StatusCode(500, "An error occurred while saving the file.");
+
+            var text = _textExtractionService.ExtractText(filePath, fileExtension);
+
+            if (string.IsNullOrWhiteSpace(text))
+                return StatusCode(500, "An error occurred while extracting text from the file.");
+
+            CompletionRequest completionRequest = new(CompletionRequestsConstants.analysisCompletionRequest.Messages, CompletionRequestsConstants.analysisCompletionRequest.Temperature);
+
+            completionRequest.Messages.Add(new(Globals.CompletionMessageRoleUser, text));
+
+            var analysis = await _llmCompletionService.GetCompletionAsync(completionRequest).ConfigureAwait(false);
+
+            if (analysis == null || analysis.Choices == null || analysis.Choices.Count == 0)
+                return StatusCode(500, "An error occurred while getting the completion.");
+
+            return Ok(analysis.Choices[0].Message.Content);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error at class: {class}, method: {method}", nameof(DocumentController), nameof(GetDocumentAnalysis));
 
             return StatusCode(500, $"An error occurred while processing the request: {ex.Message}");
         }
