@@ -10,6 +10,7 @@ public static class CompletionRequestsConstants
     public readonly static CompletionRequest summaryCompletionRequest;
     public readonly static CompletionRequest analysisCompletionRequest;
     public readonly static CompletionRequest sentimentCompletionRequest;
+    public readonly static CompletionRequest dangerousCompletionRequest;
 
     static CompletionRequestsConstants()
     {
@@ -42,6 +43,13 @@ public static class CompletionRequestsConstants
 
             sentimentCompletionRequest = JsonConvert.DeserializeObject<CompletionRequest>(sentimentCompletionRequestJsonContent)
                 ?? throw new($"Failed to deserialize completion request at class: {nameof(CompletionRequestsConstants)}, method: {nameof(CompletionRequestsConstants)} with input: {sentimentCompletionRequestJsonContent}");
+
+            // dangerousCompletionRequest
+            string dangerousCompletionRequestJsonFilePath = Path.Combine(Globals.CompletionRequestsFolderName, "DangerousCompletionRequest.json");
+            string dangerousCompletionRequestJsonContent = File.ReadAllText(dangerousCompletionRequestJsonFilePath);
+
+            dangerousCompletionRequest = JsonConvert.DeserializeObject<CompletionRequest>(dangerousCompletionRequestJsonContent)
+                ?? throw new($"Failed to deserialize completion request at class: {nameof(CompletionRequestsConstants)}, method: {nameof(CompletionRequestsConstants)} with input: {dangerousCompletionRequestJsonContent}");
 
             Log.Information("CompletionRequestsConstants loaded successfully.");
         }

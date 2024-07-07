@@ -146,6 +146,48 @@ public class DocumentController(ISaveFileService saveFileService, ITextExtractio
         }
     }
 
+    [HttpPost("dangerous")]
+    public async Task<ActionResult<string>> GetDocumentDangerous(IFormFile file)
+    {
+        try
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("File is empty.");
+
+            var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+            if (!Globals.allowedDocumentExtensions.Contains(fileExtension))
+                return BadRequest($"File extension {fileExtension} is not allowed. Only {Globals.allowedDocumentExtensionsString} are allowed.");
+
+            var filePath = await _saveFileService.SaveFileAsync(file, fileExtension).ConfigureAwait(false);
+
+            if (string.IsNullOrWhiteSpace(filePath))
+                return StatusCode(500, "An error occurred while saving the file.");
+
+            var text = _textExtractionService.ExtractText(filePath, fileExtension);
+
+            if (string.IsNullOrWhiteSpace(text))
+                return StatusCode(500, "An error occurred while extracting text from the file.");
+
+            CompletionRequest completionRequest = new(new(CompletionRequestsConstants.dangerousCompletionRequest.Messages), CompletionRequestsConstants.dangerousCompletionRequest.Temperature);
+
+            completionRequest.Messages.Add(new(Globals.CompletionMessageRoleUser, text));
+
+            var dangerous = await _llmCompletionService.GetCompletionAsync(completionRequest).ConfigureAwait(false);
+
+            if (dangerous == null || dangerous.Choices == null || dangerous.Choices.Count == 0)
+                return StatusCode(500, "An error occurred while getting the completion.");
+
+            return Ok(dangerous.Choices[0].Message.Content);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error at class: {class}, method: {method}", nameof(DocumentController), nameof(GetDocumentDangerous));
+
+            return StatusCode(500, $"An error occurred while processing the request: {ex.Message}");
+        }
+    }
+
     [HttpPost("testupload")]
     public async Task<ActionResult<string>> TestUploadDocument(IFormFile file)
     {
