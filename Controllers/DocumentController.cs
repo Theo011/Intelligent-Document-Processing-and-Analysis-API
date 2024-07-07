@@ -188,6 +188,67 @@ public class DocumentController(ISaveFileService saveFileService, ITextExtractio
         }
     }
 
+    [HttpPost("compare")]
+    public async Task<ActionResult<string>> GetDocumentComparison(IFormFile file1, IFormFile file2)
+    {
+        try
+        {
+            if (file1 == null || file1.Length == 0)
+                return BadRequest("File1 is empty.");
+
+            if (file2 == null || file2.Length == 0)
+                return BadRequest("File2 is empty.");
+
+            var fileExtension1 = Path.GetExtension(file1.FileName).ToLowerInvariant();
+
+            if (!Globals.allowedDocumentExtensions.Contains(fileExtension1))
+                return BadRequest($"File1 extension {fileExtension1} is not allowed. Only {Globals.allowedDocumentExtensionsString} are allowed.");
+
+            var fileExtension2 = Path.GetExtension(file2.FileName).ToLowerInvariant();
+
+            if (!Globals.allowedDocumentExtensions.Contains(fileExtension2))
+                return BadRequest($"File2 extension {fileExtension2} is not allowed. Only {Globals.allowedDocumentExtensionsString} are allowed.");
+
+            var filePath1 = await _saveFileService.SaveFileAsync(file1, fileExtension1).ConfigureAwait(false);
+
+            if (string.IsNullOrWhiteSpace(filePath1))
+                return StatusCode(500, "An error occurred while saving the file1.");
+
+            var filePath2 = await _saveFileService.SaveFileAsync(file2, fileExtension2).ConfigureAwait(false);
+
+            if (string.IsNullOrWhiteSpace(filePath2))
+                return StatusCode(500, "An error occurred while saving the file2.");
+
+            var text1 = _textExtractionService.ExtractText(filePath1, fileExtension1);
+
+            if (string.IsNullOrWhiteSpace(text1))
+                return StatusCode(500, "An error occurred while extracting text from the file1.");
+
+            var text2 = _textExtractionService.ExtractText(filePath2, fileExtension2);
+
+            if (string.IsNullOrWhiteSpace(text2))
+                return StatusCode(500, "An error occurred while extracting text from the file2.");
+
+            CompletionRequest completionRequest = new(new(CompletionRequestsConstants.compareCompletionRequest.Messages), CompletionRequestsConstants.compareCompletionRequest.Temperature);
+
+            completionRequest.Messages.Add(new(Globals.CompletionMessageRoleUser, $"First document : {text1}"));
+            completionRequest.Messages.Add(new(Globals.CompletionMessageRoleUser, $"Second document : {text2}"));
+
+            var comparison = await _llmCompletionService.GetCompletionAsync(completionRequest).ConfigureAwait(false);
+
+            if (comparison == null || comparison.Choices == null || comparison.Choices.Count == 0)
+                return StatusCode(500, "An error occurred while getting the completion.");
+
+            return Ok(comparison.Choices[0].Message.Content);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error at class: {class}, method: {method}", nameof(DocumentController), nameof(GetDocumentComparison));
+
+            return StatusCode(500, $"An error occurred while processing the request: {ex.Message}");
+        }
+    }
+
     [HttpPost("testupload")]
     public async Task<ActionResult<string>> TestUploadDocument(IFormFile file)
     {
