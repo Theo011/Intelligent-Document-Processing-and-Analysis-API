@@ -34,7 +34,7 @@ public class LlmController(ILlmCompletionService llmCompletionService) : Control
     {
         try
         {
-            var response = await _llmCompletionService.GetCompletionAsync(CompletionRequestsConstants.TestCompletionRequest).ConfigureAwait(false);
+            var response = await _llmCompletionService.GetCompletionAsync(CompletionRequestsConstants.testCompletionRequest).ConfigureAwait(false);
 
             return Ok(response.Choices[0].Message.Content);
         }

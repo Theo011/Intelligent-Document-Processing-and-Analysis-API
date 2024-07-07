@@ -5,12 +5,12 @@ namespace Intelligent_Document_Processing_and_Analysis_API.Utilities;
 
 public static class AppSettingsConstants
 {
-    public readonly static string CONSOLE_TITLE = null!;
-    public readonly static string SQLITE_CONNECTION_STRING = null!;
-    public readonly static string LLM_HTTP_API_IP = null!;
-    public readonly static string LLM_HTTP_API_PORT = null!;
-    public readonly static string LLM_COMPLETION_ENDPOINT = null!;
-    public readonly static IPAddress HTTP_API_IP = null!;
+    public readonly static string CONSOLE_TITLE;
+    public readonly static string SQLITE_CONNECTION_STRING;
+    public readonly static string LLM_HTTP_API_IP;
+    public readonly static string LLM_HTTP_API_PORT;
+    public readonly static string LLM_COMPLETION_ENDPOINT;
+    public readonly static IPAddress HTTP_API_IP;
     public readonly static int HTTP_API_PORT;
     public readonly static int COMPLETION_HTTP_CLIENT_TIMEOUT;
     public readonly static bool DISABLE_CONSOLE_QUICK_EDIT_MODE;

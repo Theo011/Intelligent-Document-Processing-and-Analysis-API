@@ -1,10 +1,12 @@
 ﻿using Serilog;
+using System.ComponentModel.DataAnnotations;
 
 namespace Intelligent_Document_Processing_and_Analysis_API.Models.DTOs;
 
 public class CreateLlmInteractionDto
 {
-    public required string Input { get; set; }
+    [Required]
+    public string Input { get; set; } = null!;
     public string? Output { get; set; }
     public string? Metadata { get; set; }
 

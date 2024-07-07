@@ -4,12 +4,14 @@ using System.Text.Json.Serialization;
 
 namespace Intelligent_Document_Processing_and_Analysis_API.Models.LLM;
 
-public class CompletionMessage
+public class CompletionMessage(string role, string content)
 {
+    [Required]
     [JsonPropertyName("role")]
     [AllowedValues(Globals.CompletionMessageRoleSystem, Globals.CompletionMessageRoleUser, Globals.CompletionMessageRoleAssistant)]
-    public required string Role { get; set; }
+    public string Role { get; set; } = role;
 
+    [Required]
     [JsonPropertyName("content")]
-    public required string Content { get; set; }
+    public string Content { get; set; } = content;
 }

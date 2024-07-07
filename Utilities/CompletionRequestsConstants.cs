@@ -6,18 +6,26 @@ namespace Intelligent_Document_Processing_and_Analysis_API.Utilities;
 
 public static class CompletionRequestsConstants
 {
-    public readonly static CompletionRequest TestCompletionRequest = null!;
+    public readonly static CompletionRequest testCompletionRequest;
+    public readonly static CompletionRequest summaryCompletionRequest;
 
     static CompletionRequestsConstants()
     {
         try
         {
-            // TestCompletionRequest
+            // testCompletionRequest
             string testCompletionRequestJsonFilePath = Path.Combine(Globals.CompletionRequestsFolderName, "TestCompletionRequest.json");
             string testCompletionRequestJsonContent = File.ReadAllText(testCompletionRequestJsonFilePath);
 
-            TestCompletionRequest = JsonConvert.DeserializeObject<CompletionRequest>(testCompletionRequestJsonContent)
+            testCompletionRequest = JsonConvert.DeserializeObject<CompletionRequest>(testCompletionRequestJsonContent)
                 ?? throw new($"Failed to deserialize completion request at class: {nameof(CompletionRequestsConstants)}, method: {nameof(CompletionRequestsConstants)} with input: {testCompletionRequestJsonContent}");
+
+            // summaryCompletionRequest
+            string summaryCompletionRequestJsonFilePath = Path.Combine(Globals.CompletionRequestsFolderName, "SummaryCompletionRequest.json");
+            string summaryCompletionRequestJsonContent = File.ReadAllText(summaryCompletionRequestJsonFilePath);
+
+            summaryCompletionRequest = JsonConvert.DeserializeObject<CompletionRequest>(summaryCompletionRequestJsonContent)
+                ?? throw new($"Failed to deserialize completion request at class: {nameof(CompletionRequestsConstants)}, method: {nameof(CompletionRequestsConstants)} with input: {summaryCompletionRequestJsonContent}");
 
             Log.Information("CompletionRequestsConstants loaded successfully.");
         }

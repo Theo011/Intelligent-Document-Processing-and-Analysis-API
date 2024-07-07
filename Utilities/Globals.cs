@@ -9,8 +9,10 @@ public static class Globals
     public const string CompletionHttpClientName = "CompletionHttpClient";
 
     public const string CompletionRequestsFolderName = "CompletionRequests";
-    public const string UploadsFolderName = "Uploads";
     public const string LogsFolderName = "LOGS";
+    public const string UploadsFolderName = "Uploads";
+
+    public const float DefaultCompletionTemperature = 0.3f;
 
     public const string PdfDocumentExtension = ".pdf";
     public const string DocDocumentExtension = ".doc";

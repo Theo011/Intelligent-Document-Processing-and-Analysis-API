@@ -1,15 +1,19 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Intelligent_Document_Processing_and_Analysis_API.Models.LLM;
 
 public class CompletionChoice
 {
+    [Required]
     [JsonPropertyName("index")]
-    public required long Index { get; set; }
+    public long Index { get; set; }
 
+    [Required]
     [JsonPropertyName("message")]
-    public required CompletionMessage Message { get; set; }
+    public CompletionMessage Message { get; set; } = null!;
 
+    [Required]
     [JsonPropertyName("finish_reason")]
-    public required string FinishReason { get; set; }
+    public string FinishReason { get; set; } = null!;
 }

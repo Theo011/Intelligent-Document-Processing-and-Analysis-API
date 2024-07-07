@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using Intelligent_Document_Processing_and_Analysis_API.Utilities;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Intelligent_Document_Processing_and_Analysis_API.Models.LLM;
 
@@ -20,14 +22,17 @@ namespace Intelligent_Document_Processing_and_Analysis_API.Models.LLM;
  *  seed
  */
 
-public class CompletionRequest(List<CompletionMessage> messages, bool stream = false)
+public class CompletionRequest(List<CompletionMessage> messages, float temperature = Globals.DefaultCompletionTemperature, bool stream = false)
 {
-    /*[JsonPropertyName("model")]
-    public required string Model { get; set; }*/
-
+    [Required]
     [JsonPropertyName("messages")]
-    public required List<CompletionMessage> Messages { get; set; } = messages;
+    public List<CompletionMessage> Messages { get; set; } = messages;
 
+    [Required]
+    [JsonPropertyName("temperature")]
+    public float Temperature { get; set; } = temperature;
+
+    [Required]
     [JsonPropertyName("stream")]
     public bool Stream { get; set; } = stream;
 }

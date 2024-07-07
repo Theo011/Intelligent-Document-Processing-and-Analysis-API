@@ -1,24 +1,31 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Intelligent_Document_Processing_and_Analysis_API.Models.LLM;
 
 public class CompletionResponse
 {
+    [Required]
     [JsonPropertyName("id")]
-    public required string Id { get; set; }
+    public string Id { get; set; } = null!;
 
+    [Required]
     [JsonPropertyName("object")]
-    public required string Object { get; set; }
+    public string Object { get; set; } = null!;
 
+    [Required]
     [JsonPropertyName("created")]
-    public required long Created { get; set; }
+    public long Created { get; set; }
 
+    [Required]
     [JsonPropertyName("model")]
-    public required string Model { get; set; }
+    public string Model { get; set; } = null!;
 
+    [Required]
     [JsonPropertyName("choices")]
-    public required List<CompletionChoice> Choices { get; set; }
+    public List<CompletionChoice> Choices { get; set; } = null!;
 
+    [Required]
     [JsonPropertyName("usage")]
-    public required CompletionUsage Usage { get; set; }
+    public CompletionUsage Usage { get; set; } = null!;
 }

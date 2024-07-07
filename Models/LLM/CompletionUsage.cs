@@ -1,15 +1,19 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Intelligent_Document_Processing_and_Analysis_API.Models.LLM;
 
 public class CompletionUsage
 {
+    [Required]
     [JsonPropertyName("prompt_tokens")]
-    public required long PromptTokens { get; set; }
+    public long PromptTokens { get; set; }
 
+    [Required]
     [JsonPropertyName("completion_tokens")]
-    public required long CompletionTokens { get; set; }
+    public long CompletionTokens { get; set; }
 
+    [Required]
     [JsonPropertyName("total_tokens")]
-    public required long TotalTokens { get; set; }
+    public long TotalTokens { get; set; }
 }
