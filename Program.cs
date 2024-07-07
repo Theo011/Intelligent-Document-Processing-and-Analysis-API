@@ -20,26 +20,26 @@ var loggerConfig = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
     .WriteTo.Console()
-    .WriteTo.File("LOGS/warning-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning)
-    .WriteTo.File("LOGS/error-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Error)
-    .WriteTo.File("LOGS/fatal-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal)
+    .WriteTo.File($"{Globals.LogsFolderName}/warning-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning)
+    .WriteTo.File($"{Globals.LogsFolderName}/error-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Error)
+    .WriteTo.File($"{Globals.LogsFolderName}/fatal-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal)
     .WriteTo.Logger(lc => lc
         .Filter.ByIncludingOnly(Matching.WithProperty("Context", "HttpRequest"))
-        .WriteTo.File("LOGS/http-requests-.txt", rollingInterval: RollingInterval.Day));
+        .WriteTo.File($"{Globals.LogsFolderName}/http-requests-.txt", rollingInterval: RollingInterval.Day));
 
 if (AppSettingsConstants.ENABLE_VERBOSE_LOGS_TO_FILE)
-    loggerConfig.WriteTo.File("LOGS/verbose-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose);
+    loggerConfig.WriteTo.File($"{Globals.LogsFolderName}/verbose-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose);
 
 if (AppSettingsConstants.ENABLE_DEBUG_LOGS_TO_FILE)
-    loggerConfig.WriteTo.File("LOGS/debug-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug);
+    loggerConfig.WriteTo.File($"{Globals.LogsFolderName}/debug-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug);
 
 if (AppSettingsConstants.ENABLE_INFORMATION_LOGS_TO_FILE)
-    loggerConfig.WriteTo.File("LOGS/information-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information);
+    loggerConfig.WriteTo.File($"{Globals.LogsFolderName}/information-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information);
 
 Log.Logger = loggerConfig.CreateLogger();
 
 // Enable Serilog's self logging to a file
-SelfLog.Enable(TextWriter => File.AppendAllText("LOGS/serilog-selflog.txt", TextWriter + Environment.NewLine));
+SelfLog.Enable(TextWriter => File.AppendAllText($"{Globals.LogsFolderName}/serilog-selflog.txt", TextWriter + Environment.NewLine));
 
 builder.Host.UseSerilog(); // Use Serilog as the logging provider
 

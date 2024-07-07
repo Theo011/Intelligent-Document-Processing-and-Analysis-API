@@ -21,6 +21,8 @@ public class SQLiteDbContext(DbContextOptions<SQLiteDbContext> options) : DbCont
         catch (Exception ex)
         {
             Log.Error(ex, "Error at class: {class}, method: {method}", nameof(SQLiteDbContext), nameof(OnModelCreating));
+
+            throw;
         }
     }
 }

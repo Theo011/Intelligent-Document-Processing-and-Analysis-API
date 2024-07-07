@@ -115,6 +115,8 @@ public static class AppSettingsConstants
         catch (Exception ex)
         {
             Log.Error(ex, "Error at class: {class}, method: {method}", nameof(AppSettingsConstants), nameof(AppSettingsConstants));
+
+            throw;
         }
     }
 }

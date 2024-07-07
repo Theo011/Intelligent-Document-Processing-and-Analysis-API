@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
+using Intelligent_Document_Processing_and_Analysis_API.Utilities;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
 using Serilog;
@@ -14,10 +15,10 @@ public class TextExtractionService : ITextExtractionService
         {
             return fileExtension switch
             {
-                ".pdf" => ExtractTextFromPdf(filePath),
-                ".doc" => ExtractTextFromDoc(filePath),
-                ".docx" => ExtractTextFromDoc(filePath),
-                ".txt" => ExtractTextFromTxt(filePath),
+                Globals.PdfDocumentExtension => ExtractTextFromPdf(filePath),
+                Globals.DocDocumentExtension => ExtractTextFromDoc(filePath),
+                Globals.DocxDocumentExtension => ExtractTextFromDoc(filePath),
+                Globals.TxtDocumentExtension => ExtractTextFromTxt(filePath),
                 _ => throw new NotSupportedException($"File extension {fileExtension} is not supported.")
             };
         }

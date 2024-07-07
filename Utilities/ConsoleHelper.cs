@@ -48,6 +48,8 @@ public partial class ConsoleHelper
         catch (Exception ex)
         {
             Log.Error(ex, "Error at class: {class}, method: {method}", nameof(ConsoleHelper), nameof(DisableConsoleQuickEditMode));
+
+            // throw;
         }
     }
 }

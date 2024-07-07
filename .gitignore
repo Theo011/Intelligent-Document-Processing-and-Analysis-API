@@ -396,8 +396,11 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Added
 *.db
-Migrations
 *.db-shm
 *.db-wal
+ExampleDocuments
+Migrations
 Uploads

@@ -21,6 +21,8 @@ public class LlmInteractionProfile : Profile
         catch (Exception ex)
         {
             Log.Error(ex, "Error at class: {class}, method: {method}", nameof(LlmInteractionProfile), nameof(LlmInteractionProfile));
+
+            throw;
         }
     }
 }
