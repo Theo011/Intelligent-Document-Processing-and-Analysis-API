@@ -116,22 +116,3 @@ This project uses a Code-First approach with Entity Framework Core. To set up th
    ```
 
 These commands will create the initial database schema based on the entity models.
-
-## Error Handling and Logging
-
-The application uses Serilog for structured logging, capturing detailed information about errors and application events. Logs are configurable to be written to various sinks including console and files. The API returns appropriate HTTP status codes and error messages to clients in case of failures, ensuring robust error handling throughout the application.
-
-## Testing
-
-While the current version focuses on core functionality, the project structure is designed with testability in mind. Future iterations may include unit tests for services and repositories, as well as integration tests for API endpoints to ensure reliability and ease of maintenance.
-
-## Future Improvements
-
-Potential areas for future enhancement include:
-- Support for additional document types (e.g., .rtf, .odt)
-- Implementation of more advanced NLP tasks
-- Optimization of LLM integration for improved performance
-- Enhanced caching mechanisms for faster response times
-- Expanded API endpoints for more specific document processing tasks
-- Implementation of batch processing capabilities for multiple documents
-- Advanced error handling and input validation
